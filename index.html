@@ -1,10 +1,223 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My GitHub Website</title>
-  </head>
-  <body>
-    <h1>Hello world</h1>
-    <p>This is my site.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kernels</title>
+
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --accent: #5eead4;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #111827, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+
+    header nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover {
+      color: var(--accent);
+    }
+
+    .hero {
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero h2 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      max-width: 600px;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #020617;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(94,234,212,0.15);
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem;
+      border-radius: 12px;
+      transition: transform 0.2s, border 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    footer {
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* floating particles */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      opacity: 0.15;
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      from { transform: translateY(110vh); }
+      to { transform: translateY(-10vh); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>KERNELS</h1>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h2>Build. Break. Learn.</h2>
+  <p>
+    A personal space for experiments, tools, and ideas.
+    Fast, minimal, and fully open.
+  </p>
+  <div class="buttons">
+    <button class="btn primary" onclick="scrollToSection('features')">Explore</button>
+    <button class="btn">GitHub</button>
+  </div>
+</div>
+
+<section id="features">
+  <h2 style="margin-bottom:1.5rem;">Features</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>⚡ Fast</h3>
+      <p>No frameworks, no builds, just raw HTML/CSS/JS.</p>
+    </div>
+    <div class="card">
+      <h3>🧠 Experimental</h3>
+      <p>Perfect for testing ideas, visuals, and logic.</p>
+    </div>
+    <div class="card">
+      <h3>🔒 Static</h3>
+      <p>Runs entirely on GitHub Pages.</p>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <h2 style="margin-bottom:1rem;">About</h2>
+  <p style="color:var(--muted); max-width:700px;">
+    This site is a sandbox. You can add scripts, animations,
+    tools, or entire mini-projects without any backend.
+  </p>
+</section>
+
+<footer id="contact">
+  © <span id="year"></span> kernels.github.io
+</footer>
+
+<script>
+  // smooth scroll
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // particles
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = 10 + Math.random() * 20 + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    document.body.appendChild(p);
+  }
+</script>
+
+</body>
 </html>
