@@ -8,17 +8,19 @@
 
   <style>
     :root{
-      --bg:#07080a;
+      --bg:#05070b;
       --panel: rgba(255,255,255,0.03);
-      --muted: #9aa3ad;
+      --muted: #9ca3af;
       --text: #e9eef3;
-      --accent: #49f0d6;
+      --accent: #5eead4;
       --glass: rgba(255,255,255,0.02);
     }
 
     *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; color:var(--text)}
     html,body{height:100%;margin:0;background:var(--bg);overflow-x:hidden}
-    canvas#neurons{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;display:block}
+    /* particles background */
+    #particles-js { position: fixed; inset: 0; z-index: 0; }
+
     .wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
 
     header{display:flex;align-items:center;justify-content:space-between;padding:28px 48px}
@@ -32,11 +34,9 @@
     .nav a:hover{color:var(--text);text-decoration:underline}
 
     /* HERO / PRESENTATION */
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:40px;padding:40px 48px 20px;align-items:center}
-    .intro{
-      max-width:900px;
-    }
-    .intro h2{font-size:48px;line-height:1.03;margin:0 0 14px}
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:40px;padding:40px 48px 20px;align-items:center;max-width:1100px;margin:auto}
+    .intro{max-width:820px}
+    .intro h2{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1; margin:0 0 12px}
     .tag{color:var(--muted);margin-bottom:18px;font-size:16px}
     .cta{display:flex;gap:12px;margin-top:18px}
     .btn{
@@ -55,8 +55,8 @@
     .card p{margin:0;color:var(--muted);font-size:14px}
 
     /* SECTIONS */
-    section{padding:48px;max-width:1100px;margin:0 auto}
-    section h3{font-size:22px;margin:0 0 16px}
+    section{padding:48px 20px;max-width:1100px;margin:0 auto}
+    section h3{font-size:22px;margin:0 0 12px}
     .grid{display:grid;gap:16px}
     .projects-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
     .repo{
@@ -67,11 +67,15 @@
     .repo:hover{transform:translateY(-6px);border-color:var(--accent)}
     .repo h4{margin:0 0 6px;font-size:16px}
     .repo p{margin:0;color:var(--muted);font-size:13px}
+    .repo .meta{margin-top:10px;font-size:13px;color:var(--muted)}
 
-    /* qualities */
-    .qualities{display:flex;gap:14px;flex-wrap:wrap}
-    .qual{background:var(--panel);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);min-width:220px}
-    .qual b{display:block;margin-bottom:6px}
+    /* qualities — each on its own line */
+    .qualities{display:flex;flex-direction:column;gap:12px;max-width:760px}
+    .quality{
+      background:var(--panel);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
+      display:flex;align-items:center;gap:12px;
+    }
+    .quality b{min-width:180px}
 
     /* philosophy / notes */
     .muted{color:var(--muted)}
@@ -84,11 +88,13 @@
       header{padding:18px}
       .nav a{margin-left:12px}
       .intro h2{font-size:36px}
+      .card{order:3}
     }
   </style>
 </head>
 <body>
-  <canvas id="neurons"></canvas>
+  <!-- neuronal / particles background -->
+  <div id="particles-js"></div>
 
   <div class="wrap">
     <header>
@@ -123,7 +129,7 @@
 
         <aside class="card" aria-hidden="false">
           <h3>At a glance</h3>
-          <p class="muted">Primary: C++ — deep focus. C#, Java — practical experience. Emphasis on correctness, performance, and maintainability.</p>
+          <p class="muted">Primary: <strong>C++</strong> — deep focus. <strong>C#</strong>, <strong>Java</strong> — practical experience.</p>
           <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
           <p style="font-size:13px;color:var(--muted)"><b>Principles</b><br>Minimalism · Precision · Quality</p>
         </aside>
@@ -134,30 +140,19 @@
         <p class="muted">Public work is on GitHub. Below are your latest public repositories (live from GitHub).</p>
 
         <div id="repos" class="grid projects-grid" aria-live="polite">
-          <!-- repos will inject here -->
           <div class="repo" style="opacity:.6">Loading repositories…</div>
         </div>
       </section>
 
-      <section id="qualities">
-        <h3>Qualities</h3>
+      <section id="qualities" aria-labelledby="qualities-heading">
+        <h3 id="qualities-heading">Qualities & Principles</h3>
+
         <div class="qualities" role="list">
-          <div class="qual" role="listitem">
-            <b>Correctness</b>
-            Deep attention to edge cases and robust behavior.
-          </div>
-          <div class="qual" role="listitem">
-            <b>Performance</b>
-            Optimization guided by measurement, not guesswork.
-          </div>
-          <div class="qual" role="listitem">
-            <b>Maintainability</b>
-            Clean abstractions and code that other engineers can reason about.
-          </div>
-          <div class="qual" role="listitem">
-            <b>Minimalism</b>
-            Simpler solutions are preferred; unnecessary complexity removed.
-          </div>
+          <div class="quality" role="listitem"><b>Correctness</b><span class="muted">Deep attention to edge cases and robust behavior.</span></div>
+          <div class="quality" role="listitem"><b>Performance</b><span class="muted">Optimization guided by measurement, not guesswork.</span></div>
+          <div class="quality" role="listitem"><b>Maintainability</b><span class="muted">Clean abstractions and code that other engineers can reason about.</span></div>
+          <div class="quality" role="listitem"><b>Minimalism</b><span class="muted">Simpler solutions are preferred; unnecessary complexity removed.</span></div>
+          <div class="quality" role="listitem"><b>Quiet, deliberate</b><span class="muted">A preference for doing the right work carefully and without fanfare.</span></div>
         </div>
       </section>
 
@@ -171,7 +166,7 @@
 
       <section id="notes">
         <h3>Notes</h3>
-        <p class="muted">This page is a minimal presentation — if you want a downloadable CV, dynamic filtering of repos, or an embedded demo frame for a particular project, tell me which repos to highlight and I’ll add it.</p>
+        <p class="muted">This page is a minimal presentation — if you'd like featured projects pinned, an embedded demo, or a printable single-page PDF, tell me which repos to highlight.</p>
       </section>
     </main>
 
@@ -180,16 +175,17 @@
     </footer>
   </div>
 
+  <!-- particles.js library (neuronal network style) -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
   <script>
-  // ========== small utility ==========
+  // footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // ========== GitHub repos fetch (client-side, dynamic) ==========
+  // fetch repos
   (function loadRepos(){
     const container = document.getElementById('repos');
     const username = 'Kernells';
-    // GitHub public API - no auth. If you hit rate limits while testing,
-    // you can optionally add a personal token on the server or user-side.
     const url = `https://api.github.com/users/${username}/repos?sort=updated&per_page=12`;
 
     fetch(url)
@@ -204,9 +200,9 @@
           const d = document.createElement('article');
           d.className = 'repo';
           const desc = repo.description ? `<p class="muted">${escapeHtml(repo.description)}</p>` : `<p class="muted">—</p>`;
-          const language = repo.language ? `<small style="color:var(--accent)">${repo.language}</small>` : '';
+          const language = repo.language ? `<small style="color:var(--accent)">${escapeHtml(repo.language)}</small>` : '';
           d.innerHTML = `<h4><a href="${repo.html_url}" target="_blank" style="color:var(--text);text-decoration:none">${escapeHtml(repo.name)}</a> ${language}</h4>${desc}
-                         <div style="margin-top:10px;font-size:13px;color:var(--muted)">⭐ ${repo.stargazers_count} · Updated ${new Date(repo.updated_at).toLocaleDateString()}</div>`;
+                         <div class="meta">⭐ ${repo.stargazers_count} · Updated ${new Date(repo.updated_at).toLocaleDateString()}</div>`;
           container.appendChild(d);
         });
       }).catch(err => {
@@ -217,193 +213,49 @@
     function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m]); }
   })();
 
-  // ========== Neuronal canvas background ==========
-  (function neuronsBackground(){
-    const canvas = document.getElementById('neurons');
-    const ctx = canvas.getContext('2d', { alpha: true });
-    let W = canvas.width = innerWidth;
-    let H = canvas.height = innerHeight;
-
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.floor(W * DPR);
-    canvas.height = Math.floor(H * DPR);
-    canvas.style.width = W + 'px';
-    canvas.style.height = H + 'px';
-    ctx.scale(DPR, DPR);
-
-    const NODE_COUNT = Math.max(18, Math.floor((W * H) / 90000)); // scales with screen
-    const NODES = [];
-    const MAX_DIST = Math.min(220, Math.max(120, Math.hypot(W,H)/6));
-    const MOUSE = { x: W/2, y: H/2, active: false };
-
-    function rand(min, max){ return min + Math.random() * (max-min) }
-
-    // Build nodes
-    for(let i=0;i<NODE_COUNT;i++){
-      NODES.push({
-        x: rand(0, W),
-        y: rand(0, H),
-        vx: rand(-0.25, 0.25),
-        vy: rand(-0.25, 0.25),
-        r: rand(1.4, 3.2),
-        phase: Math.random() * Math.PI * 2,
-        glow: rand(0.05, 0.2)
-      });
-    }
-
-    function draw(){
-      ctx.clearRect(0,0,W,H);
-      // slight background overlay for tasteful depth
-      ctx.fillStyle = 'rgba(2,6,10,0.25)';
-      ctx.fillRect(0,0,W,H);
-
-      // Draw connections
-      for(let i=0;i<NODES.length;i++){
-        const a = NODES[i];
-        for(let j=i+1;j<NODES.length;j++){
-          const b = NODES[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.hypot(dx,dy);
-          if(dist < MAX_DIST){
-            const alpha = 0.18 * (1 - dist / MAX_DIST);
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(85,245,210,${alpha})`;
-            ctx.lineWidth = 0.8 * (1 - dist/MAX_DIST) + 0.1;
-            ctx.stroke();
-          }
-        }
+  // particles.js config (neuronal / neurons connecting look)
+  particlesJS('particles-js', {
+    particles: {
+      number: {
+        value: 110,
+        density: { enable: true, value_area: 900 }
+      },
+      color: { value: "#9feee0" },
+      shape: { type: "circle" },
+      opacity: { value: 0.8, random: true, anim: { enable: true, speed: 0.6, opacity_min: 0.2, sync: false } },
+      size: { value: 2.2, random: true, anim: { enable: true, speed: 3, size_min: 0.4, sync: false } },
+      line_linked: {
+        enable: true,
+        distance: 140,
+        color: "#5eead4",
+        opacity: 0.45,
+        width: 1
+      },
+      move: {
+        enable: true,
+        speed: 1.6,
+        direction: "none",
+        random: true,
+        straight: false,
+        out_mode: "out",
+        bounce: false,
+        attract: { enable: false, rotateX: 600, rotateY: 1200 }
       }
-
-      // mouse attraction lines
-      if(MOUSE.active){
-        for(const n of NODES){
-          const dx = n.x - MOUSE.x;
-          const dy = n.y - MOUSE.y;
-          const d = Math.hypot(dx, dy);
-          if(d < MAX_DIST * 0.9){
-            const a = 0.18 * (1 - d / (MAX_DIST*0.9));
-            ctx.beginPath();
-            ctx.moveTo(n.x, n.y);
-            ctx.lineTo(MOUSE.x, MOUSE.y);
-            ctx.strokeStyle = `rgba(80,220,200,${a*0.6})`;
-            ctx.lineWidth = 0.6 * (1 - d/(MAX_DIST*0.9));
-            ctx.stroke();
-          }
-        }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: {
+        onhover: { enable: true, mode: "grab" }, // connect to cursor
+        onclick: { enable: true, mode: "repulse" }, // pulse on click
+        resize: true
+      },
+      modes: {
+        grab: { distance: 170, line_linked: { opacity: 0.9 } },
+        repulse: { distance: 200, duration: 0.6 }
       }
-
-      // draw nodes
-      for(const n of NODES){
-        // wobble
-        n.phase += 0.01 + n.glow * 0.03;
-        const wob = Math.sin(n.phase) * (n.r*0.4);
-
-        // physics / simple bounds + mouse influence
-        if(MOUSE.active){
-          const dx = MOUSE.x - n.x;
-          const dy = MOUSE.y - n.y;
-          const d = Math.hypot(dx,dy);
-          if(d < MAX_DIST){
-            // small attractive force
-            const force = (1 - d / MAX_DIST) * 0.12;
-            n.vx += (dx / d) * force * 0.02;
-            n.vy += (dy / d) * force * 0.02;
-          }
-        }
-
-        // random jitter
-        n.vx += rand(-0.01,0.01);
-        n.vy += rand(-0.01,0.01);
-
-        // damping
-        n.vx *= 0.995;
-        n.vy *= 0.995;
-
-        n.x += n.vx;
-        n.y += n.vy;
-
-        // wrap-around softly
-        if(n.x < -20) n.x = W + 20;
-        if(n.x > W + 20) n.x = -20;
-        if(n.y < -20) n.y = H + 20;
-        if(n.y > H + 20) n.y = -20;
-
-        // glow
-        const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, Math.max(6, n.r*12));
-        grd.addColorStop(0, `rgba(73,240,214,${0.9 + n.glow})`);
-        grd.addColorStop(0.25, `rgba(73,240,214,${0.25 + n.glow*0.6})`);
-        grd.addColorStop(1, 'rgba(73,240,214,0)');
-        ctx.beginPath();
-        ctx.fillStyle = grd;
-        ctx.arc(n.x, n.y, Math.max(6, n.r*10), 0, Math.PI*2);
-        ctx.fill();
-
-        // core dot
-        ctx.beginPath();
-        ctx.fillStyle = 'rgba(2,6,10,0.8)';
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
-        ctx.fill();
-      }
-
-      requestAnimationFrame(draw);
-    }
-
-    // mouse interactivity
-    window.addEventListener('mousemove', e=>{
-      const rect = canvas.getBoundingClientRect();
-      MOUSE.x = e.clientX - rect.left;
-      MOUSE.y = e.clientY - rect.top;
-      MOUSE.active = true;
-    });
-    window.addEventListener('mouseleave', ()=>{ MOUSE.active = false });
-    window.addEventListener('mouseenter', e=>{ MOUSE.active = true });
-
-    // click pulse
-    window.addEventListener('pointerdown', e=>{
-      const x = e.clientX;
-      const y = e.clientY;
-      for(let i=0;i<NODES.length;i++){
-        const n = NODES[i];
-        const dx = n.x - x;
-        const dy = n.y - y;
-        const d = Math.hypot(dx,dy);
-        if(d < 180){
-          const power = 0.9 * (1 - d/180) + 0.1;
-          n.vx += (dx/d)*(-power*1.8 + Math.random()*0.6);
-          n.vy += (dy/d)*(-power*1.8 + Math.random()*0.6);
-          n.phase += Math.PI * power;
-        }
-      }
-    });
-
-    // handle resize
-    let rezTimer;
-    window.addEventListener('resize', ()=>{
-      clearTimeout(rezTimer);
-      rezTimer = setTimeout(()=>{
-        W = canvas.width = innerWidth;
-        H = canvas.height = innerHeight;
-        const DPR = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.floor(W * DPR);
-        canvas.height = Math.floor(H * DPR);
-        canvas.style.width = W + 'px';
-        canvas.style.height = H + 'px';
-        ctx.setTransform(1,0,0,1,0,0);
-        ctx.scale(DPR, DPR);
-      }, 150);
-    });
-
-    // gentle initial offset so nodes move organically
-    for(const n of NODES){
-      n.vx += rand(-0.3,0.3);
-      n.vy += rand(-0.3,0.3);
-    }
-
-    requestAnimationFrame(draw);
-  })();
+    },
+    retina_detect: true
+  });
   </script>
 </body>
 </html>
