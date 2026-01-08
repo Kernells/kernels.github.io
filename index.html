@@ -1,239 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KERNELS</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KERNELS — presentation</title>
+  <meta name="description" content="KERNELS — Simplicity, precision, and well-crafted systems." />
 
   <style>
-    :root {
-      --bg: #0b0d10;
-      --panel: rgba(255,255,255,0.035);
-      --border: rgba(255,255,255,0.08);
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #5eead4;
+    :root{
+      --bg:#07080a;
+      --panel: rgba(255,255,255,0.03);
+      --muted: #9aa3ad;
+      --text: #e9eef3;
+      --accent: #49f0d6;
+      --glass: rgba(255,255,255,0.02);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+    *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; color:var(--text)}
+    html,body{height:100%;margin:0;background:var(--bg);overflow-x:hidden}
+    canvas#neurons{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;display:block}
+    .wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
 
-    body {
-      background: radial-gradient(circle at top, #111827, var(--bg));
-      color: var(--text);
-      line-height: 1.6;
+    header{display:flex;align-items:center;justify-content:space-between;padding:28px 48px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{
+      width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#62bdf1);
+      display:grid;place-items:center;font-weight:700;color:#021016;box-shadow:0 6px 24px rgba(6,8,10,0.6)
     }
+    h1{font-size:14px;letter-spacing:0.12em;color:var(--accent);margin:0}
+    .nav a{color:var(--muted);text-decoration:none;margin-left:20px;font-size:14px}
+    .nav a:hover{color:var(--text);text-decoration:underline}
 
-    header {
-      padding: 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* HERO / PRESENTATION */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:40px;padding:40px 48px 20px;align-items:center}
+    .intro{
+      max-width:900px;
     }
-
-    header h1 {
-      letter-spacing: 0.15em;
-      font-size: 1rem;
-      color: var(--accent);
+    .intro h2{font-size:48px;line-height:1.03;margin:0 0 14px}
+    .tag{color:var(--muted);margin-bottom:18px;font-size:16px}
+    .cta{display:flex;gap:12px;margin-top:18px}
+    .btn{
+      border-radius:10px;padding:10px 16px;border:1px solid rgba(255,255,255,0.06);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color:var(--text);cursor:pointer;font-weight:600
     }
+    .btn.primary{background:linear-gradient(180deg,var(--accent),#6feadc);color:#021016;border:none}
 
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      margin-left: 1.5rem;
+    /* right column card */
+    .card{
+      background:var(--glass);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 10px 30px rgba(2,4,6,0.6);
     }
+    .card h3{margin:0 0 8px;font-size:18px}
+    .card p{margin:0;color:var(--muted);font-size:14px}
 
-    nav a:hover {
-      color: var(--accent);
+    /* SECTIONS */
+    section{padding:48px;max-width:1100px;margin:0 auto}
+    section h3{font-size:22px;margin:0 0 16px}
+    .grid{display:grid;gap:16px}
+    .projects-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+    .repo{
+      background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.035);
+      transition:transform .18s, border-color .18s;
     }
+    .repo:hover{transform:translateY(-6px);border-color:var(--accent)}
+    .repo h4{margin:0 0 6px;font-size:16px}
+    .repo p{margin:0;color:var(--muted);font-size:13px}
 
-    .hero {
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
+    /* qualities */
+    .qualities{display:flex;gap:14px;flex-wrap:wrap}
+    .qual{background:var(--panel);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);min-width:220px}
+    .qual b{display:block;margin-bottom:6px}
 
-    .hero h2 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      margin-bottom: 1rem;
-    }
+    /* philosophy / notes */
+    .muted{color:var(--muted)}
 
-    .hero p {
-      color: var(--muted);
-      max-width: 650px;
-    }
+    footer{padding:40px 48px;color:var(--muted);font-size:14px;text-align:center}
 
-    section {
-      padding: 4rem 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    section h3 {
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem;
-      transition: transform 0.2s, border 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .qualities li {
-      list-style: none;
-      margin-bottom: 0.5rem;
-    }
-
-    .qualities li::before {
-      content: "— ";
-      color: var(--accent);
-    }
-
-    form {
-      display: grid;
-      gap: 1rem;
-      max-width: 500px;
-    }
-
-    input, textarea {
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem;
-      color: var(--text);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    button {
-      background: var(--accent);
-      color: #020617;
-      border: none;
-      padding: 0.75rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    footer {
-      text-align: center;
-      padding: 3rem 1rem;
-      color: var(--muted);
-      font-size: 0.9rem;
+    /* small responsive tweaks */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;padding:28px}
+      header{padding:18px}
+      .nav a{margin-left:12px}
+      .intro h2{font-size:36px}
     }
   </style>
 </head>
 <body>
+  <canvas id="neurons"></canvas>
 
-<header>
-  <h1>KERNELS</h1>
-  <nav>
-    <a href="#projects">Projects</a>
-    <a href="#qualities">Qualities</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</header>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">K</div>
+        <div>
+          <h1>KERNELS</h1>
+          <div class="muted" style="font-size:12px">Simplicity · Precision · Well-crafted systems</div>
+        </div>
+      </div>
 
-<div class="hero">
-  <h2>Simplicity, precision, and systems that last.</h2>
-  <p>
-    I focus on understanding systems at their core and refining them
-    until only what matters remains.
-  </p>
-</div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#projects">Projects</a>
+        <a href="#qualities">Qualities</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="https://github.com/Kernells" target="_blank">GitHub</a>
+      </nav>
+    </header>
 
-<section id="projects">
-  <h3>Projects</h3>
-  <div class="grid">
-    <div class="card">
-      <h4>GitHub Portfolio</h4>
-      <p class="muted">
-        A curated set of experimental and detail-oriented projects.
-      </p>
-      <p>
-        <a href="https://github.com/Kernells" target="_blank" style="color:var(--accent);">
-          github.com/Kernells →
-        </a>
-      </p>
-    </div>
+    <main>
+      <section class="hero" aria-label="Presentation">
+        <div class="intro">
+          <h2>Build the right thing. Make it last.</h2>
+          <div class="tag">I enjoy understanding how systems behave at their core and refining them until only what matters remains.</div>
+          <p class="muted">Clarity over noise — correctness over shortcuts. I tend to work quietly, focusing on building things the right way.</p>
 
-    <div class="card">
-      <h4>Low-level Experiments</h4>
-      <p class="muted">
-        Focused explorations in correctness, performance, and clean abstractions.
-      </p>
-    </div>
+          <div class="cta">
+            <button class="btn primary" onclick="document.querySelector('#projects').scrollIntoView({behavior:'smooth'})">See projects</button>
+            <button class="btn" onclick="window.open('https://github.com/Kernells', '_blank')">Visit GitHub</button>
+          </div>
+        </div>
 
-    <div class="card">
-      <h4>System Design Work</h4>
-      <p class="muted">
-        Minimalist implementations that favor clarity and maintainability.
-      </p>
-    </div>
+        <aside class="card" aria-hidden="false">
+          <h3>At a glance</h3>
+          <p class="muted">Primary: C++ — deep focus. C#, Java — practical experience. Emphasis on correctness, performance, and maintainability.</p>
+          <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
+          <p style="font-size:13px;color:var(--muted)"><b>Principles</b><br>Minimalism · Precision · Quality</p>
+        </aside>
+      </section>
+
+      <section id="projects" aria-labelledby="projects-heading">
+        <h3 id="projects-heading">Projects</h3>
+        <p class="muted">Public work is on GitHub. Below are your latest public repositories (live from GitHub).</p>
+
+        <div id="repos" class="grid projects-grid" aria-live="polite">
+          <!-- repos will inject here -->
+          <div class="repo" style="opacity:.6">Loading repositories…</div>
+        </div>
+      </section>
+
+      <section id="qualities">
+        <h3>Qualities</h3>
+        <div class="qualities" role="list">
+          <div class="qual" role="listitem">
+            <b>Correctness</b>
+            Deep attention to edge cases and robust behavior.
+          </div>
+          <div class="qual" role="listitem">
+            <b>Performance</b>
+            Optimization guided by measurement, not guesswork.
+          </div>
+          <div class="qual" role="listitem">
+            <b>Maintainability</b>
+            Clean abstractions and code that other engineers can reason about.
+          </div>
+          <div class="qual" role="listitem">
+            <b>Minimalism</b>
+            Simpler solutions are preferred; unnecessary complexity removed.
+          </div>
+        </div>
+      </section>
+
+      <section id="philosophy">
+        <h3>Philosophy</h3>
+        <p class="muted" style="max-width:80ch">
+          Good software doesn’t draw attention to itself. It just works — and keeps working.
+          Most work here is experimental and detail-oriented; not everything needs to be flashy to be effective.
+        </p>
+      </section>
+
+      <section id="notes">
+        <h3>Notes</h3>
+        <p class="muted">This page is a minimal presentation — if you want a downloadable CV, dynamic filtering of repos, or an embedded demo frame for a particular project, tell me which repos to highlight and I’ll add it.</p>
+      </section>
+    </main>
+
+    <footer>
+      View full project list on <a href="https://github.com/Kernells" style="color:var(--accent)" target="_blank">github.com/Kernells</a> · © <span id="year"></span>
+    </footer>
   </div>
-</section>
 
-<section id="qualities">
-  <h3>Qualities</h3>
-  <ul class="qualities muted">
-    <li>Strong focus on correctness and edge cases</li>
-    <li>Performance-aware without premature optimization</li>
-    <li>Clean abstractions over clever hacks</li>
-    <li>Quiet, deliberate development process</li>
-    <li>Preference for long-term maintainability</li>
-  </ul>
-</section>
-
-<section id="contact">
-  <h3>Contact</h3>
-  <p class="muted" style="margin-bottom:1rem;">
-    Send a message directly. No social noise.
-  </p>
-
-  <!-- Replace action URL with your form provider endpoint -->
-  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-    <input type="text" name="name" placeholder="Your name" required>
-    <input type="email" name="email" placeholder="Your email" required>
-    <textarea name="message" placeholder="Message" required></textarea>
-    <button type="submit">Send</button>
-  </form>
-</section>
-
-<footer>
-  © <span id="year"></span> Kernels
-</footer>
-
-<script>
+  <script>
+  // ========== small utility ==========
   document.getElementById('year').textContent = new Date().getFullYear();
-</script>
 
+  // ========== GitHub repos fetch (client-side, dynamic) ==========
+  (function loadRepos(){
+    const container = document.getElementById('repos');
+    const username = 'Kernells';
+    // GitHub public API - no auth. If you hit rate limits while testing,
+    // you can optionally add a personal token on the server or user-side.
+    const url = `https://api.github.com/users/${username}/repos?sort=updated&per_page=12`;
+
+    fetch(url)
+      .then(r => r.ok ? r.json() : Promise.reject(r))
+      .then(list => {
+        container.innerHTML = '';
+        if (!Array.isArray(list) || list.length === 0) {
+          container.innerHTML = '<div class="repo">No public repositories found.</div>';
+          return;
+        }
+        list.forEach(repo => {
+          const d = document.createElement('article');
+          d.className = 'repo';
+          const desc = repo.description ? `<p class="muted">${escapeHtml(repo.description)}</p>` : `<p class="muted">—</p>`;
+          const language = repo.language ? `<small style="color:var(--accent)">${repo.language}</small>` : '';
+          d.innerHTML = `<h4><a href="${repo.html_url}" target="_blank" style="color:var(--text);text-decoration:none">${escapeHtml(repo.name)}</a> ${language}</h4>${desc}
+                         <div style="margin-top:10px;font-size:13px;color:var(--muted)">⭐ ${repo.stargazers_count} · Updated ${new Date(repo.updated_at).toLocaleDateString()}</div>`;
+          container.appendChild(d);
+        });
+      }).catch(err => {
+        console.warn('repo fetch failed', err);
+        container.innerHTML = '<div class="repo">Could not load repositories — <a href="https://github.com/Kernells" style="color:var(--accent)">open on GitHub</a></div>';
+      });
+
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m]); }
+  })();
+
+  // ========== Neuronal canvas background ==========
+  (function neuronsBackground(){
+    const canvas = document.getElementById('neurons');
+    const ctx = canvas.getContext('2d', { alpha: true });
+    let W = canvas.width = innerWidth;
+    let H = canvas.height = innerHeight;
+
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(W * DPR);
+    canvas.height = Math.floor(H * DPR);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(DPR, DPR);
+
+    const NODE_COUNT = Math.max(18, Math.floor((W * H) / 90000)); // scales with screen
+    const NODES = [];
+    const MAX_DIST = Math.min(220, Math.max(120, Math.hypot(W,H)/6));
+    const MOUSE = { x: W/2, y: H/2, active: false };
+
+    function rand(min, max){ return min + Math.random() * (max-min) }
+
+    // Build nodes
+    for(let i=0;i<NODE_COUNT;i++){
+      NODES.push({
+        x: rand(0, W),
+        y: rand(0, H),
+        vx: rand(-0.25, 0.25),
+        vy: rand(-0.25, 0.25),
+        r: rand(1.4, 3.2),
+        phase: Math.random() * Math.PI * 2,
+        glow: rand(0.05, 0.2)
+      });
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      // slight background overlay for tasteful depth
+      ctx.fillStyle = 'rgba(2,6,10,0.25)';
+      ctx.fillRect(0,0,W,H);
+
+      // Draw connections
+      for(let i=0;i<NODES.length;i++){
+        const a = NODES[i];
+        for(let j=i+1;j<NODES.length;j++){
+          const b = NODES[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.hypot(dx,dy);
+          if(dist < MAX_DIST){
+            const alpha = 0.18 * (1 - dist / MAX_DIST);
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(85,245,210,${alpha})`;
+            ctx.lineWidth = 0.8 * (1 - dist/MAX_DIST) + 0.1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // mouse attraction lines
+      if(MOUSE.active){
+        for(const n of NODES){
+          const dx = n.x - MOUSE.x;
+          const dy = n.y - MOUSE.y;
+          const d = Math.hypot(dx, dy);
+          if(d < MAX_DIST * 0.9){
+            const a = 0.18 * (1 - d / (MAX_DIST*0.9));
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(MOUSE.x, MOUSE.y);
+            ctx.strokeStyle = `rgba(80,220,200,${a*0.6})`;
+            ctx.lineWidth = 0.6 * (1 - d/(MAX_DIST*0.9));
+            ctx.stroke();
+          }
+        }
+      }
+
+      // draw nodes
+      for(const n of NODES){
+        // wobble
+        n.phase += 0.01 + n.glow * 0.03;
+        const wob = Math.sin(n.phase) * (n.r*0.4);
+
+        // physics / simple bounds + mouse influence
+        if(MOUSE.active){
+          const dx = MOUSE.x - n.x;
+          const dy = MOUSE.y - n.y;
+          const d = Math.hypot(dx,dy);
+          if(d < MAX_DIST){
+            // small attractive force
+            const force = (1 - d / MAX_DIST) * 0.12;
+            n.vx += (dx / d) * force * 0.02;
+            n.vy += (dy / d) * force * 0.02;
+          }
+        }
+
+        // random jitter
+        n.vx += rand(-0.01,0.01);
+        n.vy += rand(-0.01,0.01);
+
+        // damping
+        n.vx *= 0.995;
+        n.vy *= 0.995;
+
+        n.x += n.vx;
+        n.y += n.vy;
+
+        // wrap-around softly
+        if(n.x < -20) n.x = W + 20;
+        if(n.x > W + 20) n.x = -20;
+        if(n.y < -20) n.y = H + 20;
+        if(n.y > H + 20) n.y = -20;
+
+        // glow
+        const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, Math.max(6, n.r*12));
+        grd.addColorStop(0, `rgba(73,240,214,${0.9 + n.glow})`);
+        grd.addColorStop(0.25, `rgba(73,240,214,${0.25 + n.glow*0.6})`);
+        grd.addColorStop(1, 'rgba(73,240,214,0)');
+        ctx.beginPath();
+        ctx.fillStyle = grd;
+        ctx.arc(n.x, n.y, Math.max(6, n.r*10), 0, Math.PI*2);
+        ctx.fill();
+
+        // core dot
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(2,6,10,0.8)';
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    // mouse interactivity
+    window.addEventListener('mousemove', e=>{
+      const rect = canvas.getBoundingClientRect();
+      MOUSE.x = e.clientX - rect.left;
+      MOUSE.y = e.clientY - rect.top;
+      MOUSE.active = true;
+    });
+    window.addEventListener('mouseleave', ()=>{ MOUSE.active = false });
+    window.addEventListener('mouseenter', e=>{ MOUSE.active = true });
+
+    // click pulse
+    window.addEventListener('pointerdown', e=>{
+      const x = e.clientX;
+      const y = e.clientY;
+      for(let i=0;i<NODES.length;i++){
+        const n = NODES[i];
+        const dx = n.x - x;
+        const dy = n.y - y;
+        const d = Math.hypot(dx,dy);
+        if(d < 180){
+          const power = 0.9 * (1 - d/180) + 0.1;
+          n.vx += (dx/d)*(-power*1.8 + Math.random()*0.6);
+          n.vy += (dy/d)*(-power*1.8 + Math.random()*0.6);
+          n.phase += Math.PI * power;
+        }
+      }
+    });
+
+    // handle resize
+    let rezTimer;
+    window.addEventListener('resize', ()=>{
+      clearTimeout(rezTimer);
+      rezTimer = setTimeout(()=>{
+        W = canvas.width = innerWidth;
+        H = canvas.height = innerHeight;
+        const DPR = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(W * DPR);
+        canvas.height = Math.floor(H * DPR);
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(1,0,0,1,0,0);
+        ctx.scale(DPR, DPR);
+      }, 150);
+    });
+
+    // gentle initial offset so nodes move organically
+    for(const n of NODES){
+      n.vx += rand(-0.3,0.3);
+      n.vy += rand(-0.3,0.3);
+    }
+
+    requestAnimationFrame(draw);
+  })();
+  </script>
 </body>
 </html>
