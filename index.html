@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kernels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KERNELS</title>
 
   <style>
     :root {
       --bg: #0b0d10;
-      --accent: #5eead4;
+      --panel: rgba(255,255,255,0.035);
+      --border: rgba(255,255,255,0.08);
       --text: #e5e7eb;
       --muted: #9ca3af;
+      --accent: #5eead4;
     }
 
     * {
@@ -23,97 +25,74 @@
     body {
       background: radial-gradient(circle at top, #111827, var(--bg));
       color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
+      line-height: 1.6;
     }
 
     header {
-      padding: 1.5rem 2rem;
+      padding: 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     header h1 {
-      font-size: 1.2rem;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
+      font-size: 1rem;
       color: var(--accent);
     }
 
-    header nav a {
+    nav a {
       color: var(--muted);
       text-decoration: none;
       margin-left: 1.5rem;
-      transition: color 0.2s;
     }
 
-    header nav a:hover {
+    nav a:hover {
       color: var(--accent);
     }
 
     .hero {
-      height: 80vh;
+      min-height: 80vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      text-align: center;
       padding: 2rem;
+      max-width: 900px;
+      margin: auto;
     }
 
     .hero h2 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-size: clamp(2.5rem, 5vw, 4rem);
       margin-bottom: 1rem;
     }
 
     .hero p {
-      max-width: 600px;
       color: var(--muted);
-      margin-bottom: 2rem;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      border: 1px solid var(--accent);
-      background: transparent;
-      color: var(--accent);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn.primary {
-      background: var(--accent);
-      color: #020617;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(94,234,212,0.15);
+      max-width: 650px;
     }
 
     section {
       padding: 4rem 2rem;
-      max-width: 1000px;
+      max-width: 900px;
       margin: auto;
+    }
+
+    section h3 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.5rem;
     }
 
     .card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
       padding: 1.5rem;
-      border-radius: 12px;
       transition: transform 0.2s, border 0.2s;
     }
 
@@ -122,27 +101,53 @@
       border-color: var(--accent);
     }
 
+    .muted {
+      color: var(--muted);
+    }
+
+    .qualities li {
+      list-style: none;
+      margin-bottom: 0.5rem;
+    }
+
+    .qualities li::before {
+      content: "— ";
+      color: var(--accent);
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+      max-width: 500px;
+    }
+
+    input, textarea {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      color: var(--text);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    button {
+      background: var(--accent);
+      color: #020617;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
     footer {
-      padding: 2rem;
       text-align: center;
+      padding: 3rem 1rem;
       color: var(--muted);
       font-size: 0.9rem;
-    }
-
-    /* floating particles */
-    .particle {
-      position: fixed;
-      width: 4px;
-      height: 4px;
-      background: var(--accent);
-      opacity: 0.15;
-      border-radius: 50%;
-      animation: float linear infinite;
-    }
-
-    @keyframes float {
-      from { transform: translateY(110vh); }
-      to { transform: translateY(-10vh); }
     }
   </style>
 </head>
@@ -151,72 +156,83 @@
 <header>
   <h1>KERNELS</h1>
   <nav>
-    <a href="#features">Features</a>
-    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#qualities">Qualities</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
 
 <div class="hero">
-  <h2>Build. Break. Learn.</h2>
+  <h2>Simplicity, precision, and systems that last.</h2>
   <p>
-    A personal space for experiments, tools, and ideas.
-    Fast, minimal, and fully open.
+    I focus on understanding systems at their core and refining them
+    until only what matters remains.
   </p>
-  <div class="buttons">
-    <button class="btn primary" onclick="scrollToSection('features')">Explore</button>
-    <button class="btn">GitHub</button>
-  </div>
 </div>
 
-<section id="features">
-  <h2 style="margin-bottom:1.5rem;">Features</h2>
+<section id="projects">
+  <h3>Projects</h3>
   <div class="grid">
     <div class="card">
-      <h3>⚡ Fast</h3>
-      <p>No frameworks, no builds, just raw HTML/CSS/JS.</p>
+      <h4>GitHub Portfolio</h4>
+      <p class="muted">
+        A curated set of experimental and detail-oriented projects.
+      </p>
+      <p>
+        <a href="https://github.com/Kernells" target="_blank" style="color:var(--accent);">
+          github.com/Kernells →
+        </a>
+      </p>
     </div>
+
     <div class="card">
-      <h3>🧠 Experimental</h3>
-      <p>Perfect for testing ideas, visuals, and logic.</p>
+      <h4>Low-level Experiments</h4>
+      <p class="muted">
+        Focused explorations in correctness, performance, and clean abstractions.
+      </p>
     </div>
+
     <div class="card">
-      <h3>🔒 Static</h3>
-      <p>Runs entirely on GitHub Pages.</p>
+      <h4>System Design Work</h4>
+      <p class="muted">
+        Minimalist implementations that favor clarity and maintainability.
+      </p>
     </div>
   </div>
 </section>
 
-<section id="about">
-  <h2 style="margin-bottom:1rem;">About</h2>
-  <p style="color:var(--muted); max-width:700px;">
-    This site is a sandbox. You can add scripts, animations,
-    tools, or entire mini-projects without any backend.
-  </p>
+<section id="qualities">
+  <h3>Qualities</h3>
+  <ul class="qualities muted">
+    <li>Strong focus on correctness and edge cases</li>
+    <li>Performance-aware without premature optimization</li>
+    <li>Clean abstractions over clever hacks</li>
+    <li>Quiet, deliberate development process</li>
+    <li>Preference for long-term maintainability</li>
+  </ul>
 </section>
 
-<footer id="contact">
-  © <span id="year"></span> kernels.github.io
+<section id="contact">
+  <h3>Contact</h3>
+  <p class="muted" style="margin-bottom:1rem;">
+    Send a message directly. No social noise.
+  </p>
+
+  <!-- Replace action URL with your form provider endpoint -->
+  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <input type="text" name="name" placeholder="Your name" required>
+    <input type="email" name="email" placeholder="Your email" required>
+    <textarea name="message" placeholder="Message" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+</section>
+
+<footer>
+  © <span id="year"></span> Kernels
 </footer>
 
 <script>
-  // smooth scroll
-  function scrollToSection(id) {
-    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-  }
-
-  // footer year
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  // particles
-  for (let i = 0; i < 40; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = Math.random() * 100 + 'vw';
-    p.style.animationDuration = 10 + Math.random() * 20 + 's';
-    p.style.animationDelay = Math.random() * 10 + 's';
-    document.body.appendChild(p);
-  }
 </script>
 
 </body>
